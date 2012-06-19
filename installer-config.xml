@@ -70,8 +70,8 @@
         <res id="HTMLInfoPanel.info_spa"       src="../.props/readme_spa.html"/>
 		<res id="userInputSpec.xml"            src="userInputSpec.xml"/>
 		<res id="userInputLang.xml"            src="userInputLang.xml"/>
-		<res id="userInputLang.xml_fra"        src="userInputLang.xml_fra"/>
-	 	<res id="userInputLang.xml_spa"        src="userInputLang.xml_spa"/>
+		<res id="userInputLang.xml_fra"        src="userInputLang.xml_fra.xml"/>
+	 	<res id="userInputLang.xml_spa"        src="userInputLang.xml_spa.xml"/>
 		<res id="Installer.image"          	   src="installer.png"/>
 		<res id="shortcutSpec.xml"         	   src="windows-shortcuts.xml"/>
 		<res id="Unix_shortcutSpec.xml"        src="unix-shortcuts.xml"/>
