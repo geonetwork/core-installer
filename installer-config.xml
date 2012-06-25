@@ -153,15 +153,15 @@
 
         <!-- Inspire thesaurus files -->
         <singlefile src="../web/target/thesauri/gemet.rdf"
-                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/codelist/external/thesauri/theme/gemet.rdf"
+                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/config/codelist/external/thesauri/theme/gemet.rdf"
                     override="true"/>
 
         <singlefile src="../web/target/thesauri/inspire-service-taxonomy.rdf"
-                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/codelist/external/thesauri/theme/inspire-service-taxonomy.rdf"
+                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/config/codelist/external/thesauri/theme/inspire-service-taxonomy.rdf"
                     override="true"/>
 
         <singlefile src="../web/target/thesauri/inspire-theme.rdf"
-                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/codelist/external/thesauri/theme/inspire-theme.rdf"
+                    target="$INSTALL_PATH/web/geonetwork/WEB-INF/data/config/codelist/external/thesauri/theme/inspire-theme.rdf"
                     override="true"/>
 
         <!-- SQL script with Inspire Settings enabled -->
