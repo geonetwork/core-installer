@@ -88,10 +88,17 @@
 		<delete	dir ="${propsdir}" />
 		<mkdir	dir ="${propsdir}" />
 
-		<exec executable="svn" dir=".." output="svn.properties">
-		    <arg value="info" />
+		<exec executable="git" dir=".." output="git.properties">
+		    <arg value="remote" />
+		    <arg value="-v" />
 		</exec>
-		<property prefix="svn" file="svn.properties"/>
+		<property prefix="git" file="git.properties"/>
+		
+		<exec executable="git" dir=".." output="git2.properties">
+		    <arg value="log" />
+		    <arg value="--max-count=1" />
+		</exec>
+		<property prefix="git2" file="git2.properties"/>
 	
 		<!-- Update the properties file -->
 		<propertyfile
@@ -113,8 +120,8 @@
 			<entry  key="OS" value="${OS}"/>
 			<entry	key="debugOn" value="${debugOn}"/>
 
-			<entry key="svn_revision" value="${svn.Revision}"/>
-			<entry key="svn_url" value="${svn.URL}"/>
+			<entry key="git_revision" value="${git2.commit}"/>
+			<entry key="git_url" value="${git.origin}"/>
 					  
 		</propertyfile>
 		
