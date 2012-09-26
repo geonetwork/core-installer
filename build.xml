@@ -21,18 +21,17 @@
 	<condition property="osys" value="unix">
 			<os family="unix"/>
 	</condition>
-
+		
 	<!-- =================================================================================== -->
 
-	<property name="version" value="2.9.0" />
-    <property name="subVersion" value="SNAPSHOT" />
+	<property name="version" value="2.6.5" />
+	<property name="subVersion" value="SNAPSHOT" />
 	<property name="javaVersion" value="1.5.0" /> <!-- Minimum version required -->
 	<property name="jre_url" value="http://java.sun.com/javase/downloads" />
 	<property name="OS" value="Compiled on ${os.name} (${osys})" />
 	<property name="propsdir" value="../.props" />
 	<property name="ant.build.javac.target" value="1.5"/>
 	<property name="debugOn" value="on"/> <!-- on off true false yes no -->
-    <property name="thesaurusUrl" value="https://geonetwork.svn.sourceforge.net/svnroot/geonetwork/utilities/gemet/thesauri" />
 
 	<!-- =================================================================================== -->
 	
@@ -46,49 +45,12 @@
 
 	<!-- =================================================================================== -->
 
-    <target name="thesaurusDownload">
-        <mkdir	dir ="../web/target/thesauri" />
-
-        <get src="${thesaurusUrl}/gemet.rdf"
-        	dest="../web/target/thesauri/gemet.rdf" usetimestamp="true" />
-
-        <get src="${thesaurusUrl}/inspire-service-taxonomy.rdf"
-             dest="../web/target/thesauri/inspire-service-taxonomy.rdf" usetimestamp="true" />
-
-         <get src="${thesaurusUrl}/inspire-theme.rdf"
-             dest="../web/target/thesauri/inspire-theme.rdf" usetimestamp="true" />
-    </target>
-
-    <target name="inspireDbSettings">
-        <mkdir	dir ="../web/target/inspire" />
-
-        <copy file="../web/target/geonetwork/WEB-INF/classes/setup/sql/data/data-db-default.sql" tofile="../web/target/inspire/data-db-default.sql" overwrite="true"/>
-        <replace file="../web/target/inspire/data-db-default.sql">
-            <replacefilter>
-                <replacetoken><![CDATA[INSERT INTO Settings VALUES (721,720,'enable','false');]]></replacetoken>
-                <replacevalue><![CDATA[INSERT INTO Settings VALUES (721,720,'enable','true');]]></replacevalue>
-            </replacefilter>
-
-            <replacefilter>
-                <replacetoken><![CDATA[INSERT INTO Settings VALUES (722,720,'enableSearchPanel','false');]]></replacetoken>
-                <replacevalue><![CDATA[INSERT INTO Settings VALUES (722,720,'enableSearchPanel','true');]]></replacevalue>
-            </replacefilter>
-
-            <replacefilter>
-                <replacetoken><![CDATA[INSERT INTO Settings VALUES (913,910,'enableInspireView','false');]]></replacetoken>
-                <replacevalue><![CDATA[INSERT INTO Settings VALUES (913,910,'enableInspireView','true');]]></replacevalue>
-            </replacefilter>
-        </replace>
-    </target>
-
-    <target name="inspireTarget" depends="thesaurusDownload,inspireDbSettings" />
-
-    <target name="setProperties">
+	<target name="setProperties">
 	
 		<delete	dir ="${propsdir}" />
 		<mkdir	dir ="${propsdir}" />
 
-		<exec executable="svn" dir=".." output="svn.properties">
+		<exec executable="svn" output="svn.properties">
 		    <arg value="info" />
 		</exec>
 		<property prefix="svn" file="svn.properties"/>
@@ -115,7 +77,7 @@
 
 			<entry key="svn_revision" value="${svn.Revision}"/>
 			<entry key="svn_url" value="${svn.URL}"/>
-					  
+		  
 		</propertyfile>
 		
 		<!-- make sure all files that need have version numbers etc updated -->
@@ -131,18 +93,20 @@
 			<replacefilter token="@subVersion@" property="subVersion"/>
 			<replacefilter token="@javaVersion@" property="javaVersion"/>
 		</replace>
-    	
-    	<!-- Modify the config-gui.xml replacing the default view setting with a variable $defaultGUI that can be used to 
-    		 configure the selected view during the installation process. The choice depends on the userInputPanel.xml radio selection -->
 
-    	<replace file="../web/target/geonetwork/WEB-INF/config-gui.xml" >
-    		<replacefilter>
-    			<replacetoken><![CDATA[<client type="redirect" widget="false" url="main.home" />]]></replacetoken>
-    			<replacevalue><![CDATA[${defaultGUI}]]></replacevalue>
-    		</replacefilter>
-    	</replace>
-    	
-    	<!-- help file -->
+	    <!-- Windows with JRE installer build -->
+	    <copy 	file="../installer/installer-config-win-jre.xml" 
+	    		tofile="${propsdir}/installer-config-win-jre.xml" 
+	    		filtering="on" overwrite="yes"/>
+
+		<replace 	file="${propsdir}/installer-config-win-jre.xml"
+			propertyFile="../web/src/main/webapp/WEB-INF/server.prop">
+			<replacefilter token="@version@" property="version"/>
+			<replacefilter token="@subVersion@" property="subVersion"/>
+			<replacefilter token="@javaVersion@" property="javaVersion"/>
+		</replace>
+
+		<!-- help file -->
 	    <copy 	file="../docs/readme.html" 
 	    		tofile="${propsdir}/readme.html" 
 	    		filtering="on" overwrite="yes"/>
@@ -181,33 +145,31 @@
 
 	<!-- =================================================================================== -->
 
-	<target name="installer" depends="setProperties,inspireTarget">
-
-        <ant dir="." target="jarinstall"  />
+	<target name="installer" depends="setProperties">
+		
+		<ant dir="." target="jarinstall"  />
 		<ant dir="." target="wininstall"  />	
-
+		
 	</target>
-
-    <!-- =================================================================================== -->
-
-    <target name="jarinstall" depends="setProperties,inspireTarget">
+	
+	<target name="jarinstall" depends="setProperties">
 
         <property file="../web/src/main/webapp/WEB-INF/server.prop"/>
+		
+		<delete dir="../geonetwork-${release}"/>
+		<mkdir  dir="../geonetwork-${release}"/>
 
-        <delete dir="../geonetwork-${release}"/>
-        <mkdir  dir="../geonetwork-${release}"/>
+		<echo message="Building platform independent installer on ${osys} using IzPack"/>
 
-        <echo message="Building platform independent installer on ${osys} using IzPack"/>
-
-        <izpack	input="${propsdir}/installer-config.xml"
-            output="../geonetwork-${release}/geonetwork-install-${release}-${subVersion}.jar"
-                    installerType="standard"
-                    basedir="${basedir}"/>
-
-        <checksum file="../geonetwork-${release}/geonetwork-install-${release}-${subVersion}.jar" forceOverwrite="yes"/>
-
+		<izpack	input="${propsdir}/installer-config.xml" 
+			output="../geonetwork-${release}/geonetwork-install-${release}-${subVersion}.jar" 
+					installerType="standard" 
+					basedir="${basedir}"/>
+	
+		<checksum file="../geonetwork-${release}/geonetwork-install-${release}-${subVersion}.jar" forceOverwrite="yes"/>
     </target>
 
+	
 	<!-- =================================================================================== -->
 
 	<target name="wininstall">
@@ -228,5 +190,35 @@
 	<checksum file="../geonetwork-${release}/geonetwork-install-${release}-${subVersion}.exe" forceOverwrite="yes"/>
 		
 	</target>
+
+	<!-- =================================================================================== -->
+
+	<target name="wininstall-jre">
+		<!-- create a Windows installer using launch4j -->
+
+		<property file="../web/src/main/webapp/WEB-INF/server.prop"/>
+
+		<izpack	input="${propsdir}/installer-config-win-jre.xml" 
+			output="../geonetwork-${release}/geonetwork-install-win-jre-${release}-${subVersion}.jar" 
+					installerType="standard" 
+					basedir="${basedir}"/> 
+
+		<checksum file="../geonetwork-${release}/geonetwork-install-win-jre-${release}-${subVersion}.jar" forceOverwrite="yes"/>
+		
+		<echo message="Building Windows installer with JRE on ${osys} using launch4j"/>
+
+		<launch4j configFile="${basedir}/launch4j/launch4jConfig-jre.xml"
+			jar="../geonetwork-${release}/geonetwork-install-win-jre-${release}-${subVersion}.jar"
+			outfile="../geonetwork-${release}/geonetwork-install-with-jre-${release}-${subVersion}.exe"
+			txtFileVersion="${version}-${subVersion}-${date}" 
+			txtProductVersion="${version}-${subVersion}" 
+			fileVersion="${version}.0" 
+			productVersion="${version}.0"/>
+
+	<checksum file="../geonetwork-${release}/geonetwork-install-with-jre-${release}-${subVersion}.exe" forceOverwrite="yes"/>
+		
+	</target>
+
+	<!-- =================================================================================== -->
 
 </project>
