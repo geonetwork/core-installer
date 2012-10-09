@@ -76,7 +76,7 @@
 		iconFile="$INSTALL_PATH/bin/ico/gast.ico"
 		iconIndex="0"
 		encoding="UTF-8">
-		<createForPack name="Core"/>
+		<createForPack name="GAST"/>
    </shortcut>
 	
 	<!-- =================================================================================== -->
