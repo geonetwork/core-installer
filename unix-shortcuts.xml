@@ -69,7 +69,7 @@
 		description="This starts GeoNetwork's Administrator Survival Tool"
 		programGroup="yes"
 		desktop="no"
-		commandLine="-jar &quot;$INSTALL_PATH/gast/gast.jar&quot;"
+		commandLine="$INSTALL_PATH/bin/gast.sh"
 		initialState="noShow"
 		workingDirectory="$INSTALL_PATH/bin"
 		type="Application"
