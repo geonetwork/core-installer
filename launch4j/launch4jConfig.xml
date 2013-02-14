@@ -5,8 +5,8 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>0</headerType>
-  <jar>../geonetwork-2.6.0/geonetwork-install.jar</jar>
-  <outfile>../geonetwork-2.6.0/geonetwork-install.exe</outfile>
+  <jar>../geonetwork-2.8.0/geonetwork-install.jar</jar>
+  <outfile>../geonetwork-2.8.0/geonetwork-install.exe</outfile>
   <errTitle>GeoNetwork opensource Installation Error</errTitle>
   <jarArgs></jarArgs>
   <chdir></chdir>
@@ -15,7 +15,7 @@
   <icon>../installer.ico</icon>
   <jre>
 <!--    <path>jre1.5.0_12</path> -->
-    <minVersion>1.5.0</minVersion>
+    <minVersion>1.6.0</minVersion>
 <!--    <maxVersion>1.5.0_15</maxVersion> -->
     <initialHeapSize>256</initialHeapSize>
     <maxHeapSize>512</maxHeapSize>
@@ -28,12 +28,12 @@
     <timeoutErr>true</timeoutErr>
   </splash>
   <versionInfo>
-    <fileVersion>2.6.0.0</fileVersion>
-    <txtFileVersion>2.6.0 0</txtFileVersion>
+    <fileVersion>2.8.0.0</fileVersion>
+    <txtFileVersion>2.8.0 0</txtFileVersion>
     <fileDescription>GeoNetwork opensource Windows Installer</fileDescription>
     <copyright>OSGeo (http://www.osgeo.org)</copyright>
-    <productVersion>2.6.0.0</productVersion>
-    <txtProductVersion>2.6.0 0</txtProductVersion>
+    <productVersion>2.8.0.0</productVersion>
+    <txtProductVersion>2.8.0 0</txtProductVersion>
     <productName>GeoNetwork opensource</productName>
     <companyName></companyName>
     <internalName>geonetwork-install.jar</internalName>
