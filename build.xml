@@ -32,7 +32,7 @@
 	<property name="propsdir" value="../.props" />
 	<property name="ant.build.javac.target" value="1.5"/>
 	<property name="debugOn" value="on"/> <!-- on off true false yes no -->
-    <property name="thesaurusUrl" value="https://github.com/geonetwork/util-gemet/thesauri" />
+	<property name="thesaurusUrl" value="https://raw.github.com/geonetwork/util-gemet/master/thesauri" />
 
 	<!-- =================================================================================== -->
 	
