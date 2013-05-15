@@ -8,7 +8,7 @@
                 id="description.radio"/>
             <spec>
                 <choice txt="The Default user interface" id="radio.label.1" value="default" set="true" />
-                <choice txt="The Tabbed Widgets based user interface" id="radio.label.2" value="tabwidget" />
+                <choice txt="The HTML5 Widgets based user interface" id="radio.label.2" value="html5widget" />
             </spec>
         </field>
         <field type="space" />
